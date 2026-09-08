@@ -1,0 +1,28 @@
+{
+ "gate_thop_MACs": 666828800,
+ "gate_manual": {
+  "mlp_macs": 5120,
+  "stat_macs": 6553600,
+  "mix_macs": 3276800,
+  "total_gate_macs": 9835520
+ },
+ "gate_thop_ratio": 33.899,
+ "e2e_sq-4ch": {
+  "ms_mean": 59.47,
+  "ms_p50": 36.52,
+  "fps_mean": 16.8,
+  "n": 40
+ },
+ "e2e_sq-4ch-gbf": {
+  "ms_mean": 39.12,
+  "ms_p50": 37.66,
+  "fps_mean": 25.6,
+  "n": 40
+ },
+ "e2e_late": {
+  "ms_mean": 76.6,
+  "fps_mean": 13.1,
+  "n": 40,
+  "note": "rgb\u6a21\u578b+ir\u6a21\u578b\u4e32\u884c\u524d\u5411+\u5408\u5e76NMS(iou0.6), \u53cc\u6a21\u578b\u22482\u00d7\u53c2\u6570"
+ }
+}

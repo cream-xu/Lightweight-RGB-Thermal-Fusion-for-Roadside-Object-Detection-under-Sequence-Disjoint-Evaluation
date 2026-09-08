@@ -1,0 +1,7 @@
+# LLVIP 4ch 干净协议: 最终评估 = 完整 3463 source test (held-out)
+channels: 4
+path: datasets/LLVIP/LLVIP/yolo_fusion
+train: images/train
+val: images/val
+names:
+  0: person

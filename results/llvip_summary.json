@@ -1,0 +1,38 @@
+{
+ "llvip-concat_s0": {
+  "exp": "llvip-concat",
+  "seed": 0,
+  "epochs": 100,
+  "test_mAP50": 0.9486,
+  "test_mAP50-95": 0.5843,
+  "dev_mAP50": 0.9846,
+  "dev_mAP50-95": 0.6884
+ },
+ "llvip-gbf_s0": {
+  "exp": "llvip-gbf",
+  "seed": 0,
+  "epochs": 100,
+  "test_mAP50": 0.9461,
+  "test_mAP50-95": 0.5881,
+  "dev_mAP50": 0.9856,
+  "dev_mAP50-95": 0.6908
+ },
+ "llvip-concat_s1": {
+  "exp": "llvip-concat",
+  "seed": 1,
+  "epochs": 100,
+  "test_mAP50": 0.956,
+  "test_mAP50-95": 0.5914,
+  "dev_mAP50": 0.9853,
+  "dev_mAP50-95": 0.6917
+ },
+ "llvip-gbf_s1": {
+  "exp": "llvip-gbf",
+  "seed": 1,
+  "epochs": 100,
+  "test_mAP50": 0.9556,
+  "test_mAP50-95": 0.6074,
+  "dev_mAP50": 0.9869,
+  "dev_mAP50-95": 0.6909
+ }
+}

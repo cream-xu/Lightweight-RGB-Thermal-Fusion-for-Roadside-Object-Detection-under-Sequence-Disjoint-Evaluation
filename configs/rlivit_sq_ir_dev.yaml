@@ -1,0 +1,12 @@
+# R-LiViT 序列级新协议 IR-only (晚融合组件)
+path: datasets/RLiViT/rlivit_sq/ir
+train: images/train
+val: images/dev
+names:
+  0: Pedestrian
+  1: Car
+  2: Cyclist
+  3: Motorcycle
+  4: Truck
+  5: Bus
+  6: Tramway

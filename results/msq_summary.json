@@ -1,0 +1,172 @@
+{
+ "msq-4ch_s0": {
+  "exp": "msq-4ch",
+  "seed": 0,
+  "channels": 4,
+  "mode": "",
+  "mAP50": 0.3773,
+  "mAP50-95": 0.2132,
+  "ap50": {
+   "Pedestrian": 0.5099,
+   "Car": 0.7993,
+   "Cyclist": 0.4768,
+   "Motorcycle": 0.0251,
+   "Truck": 0.4903,
+   "Bus": 0.3397,
+   "Tramway": 0.0
+  }
+ },
+ "msq-4ch-gbf_s0": {
+  "exp": "msq-4ch-gbf",
+  "seed": 0,
+  "channels": 4,
+  "mode": "gbf",
+  "mAP50": 0.3933,
+  "mAP50-95": 0.2213,
+  "ap50": {
+   "Pedestrian": 0.535,
+   "Car": 0.8215,
+   "Cyclist": 0.46,
+   "Motorcycle": 0.116,
+   "Truck": 0.5151,
+   "Bus": 0.3055,
+   "Tramway": 0.0
+  }
+ },
+ "msq-5ch_s0": {
+  "exp": "msq-5ch",
+  "seed": 0,
+  "channels": 5,
+  "mode": "",
+  "mAP50": 0.3902,
+  "mAP50-95": 0.2138,
+  "ap50": {
+   "Pedestrian": 0.5072,
+   "Car": 0.7946,
+   "Cyclist": 0.431,
+   "Motorcycle": 0.1393,
+   "Truck": 0.5357,
+   "Bus": 0.3237,
+   "Tramway": 0.0
+  }
+ },
+ "msq-5ch-tbf_s0": {
+  "exp": "msq-5ch-tbf",
+  "seed": 0,
+  "channels": 5,
+  "mode": "tb3",
+  "mAP50": 0.3998,
+  "mAP50-95": 0.2213,
+  "ap50": {
+   "Pedestrian": 0.531,
+   "Car": 0.8248,
+   "Cyclist": 0.4404,
+   "Motorcycle": 0.2431,
+   "Truck": 0.4735,
+   "Bus": 0.2857,
+   "Tramway": 0.0
+  }
+ },
+ "msq-5ch-gbf_s0": {
+  "exp": "msq-5ch-gbf",
+  "seed": 0,
+  "channels": 5,
+  "mode": "gb3",
+  "mAP50": 0.3949,
+  "mAP50-95": 0.2185,
+  "ap50": {
+   "Pedestrian": 0.5339,
+   "Car": 0.8365,
+   "Cyclist": 0.4802,
+   "Motorcycle": 0.1303,
+   "Truck": 0.4744,
+   "Bus": 0.3089,
+   "Tramway": 0.0
+  }
+ },
+ "msq-5ch_s1": {
+  "exp": "msq-5ch",
+  "seed": 1,
+  "channels": 5,
+  "mode": "",
+  "mAP50": 0.386,
+  "mAP50-95": 0.2189,
+  "ap50": {
+   "Pedestrian": 0.4916,
+   "Car": 0.8098,
+   "Cyclist": 0.451,
+   "Motorcycle": 0.1372,
+   "Truck": 0.5178,
+   "Bus": 0.2945,
+   "Tramway": 0.0
+  }
+ },
+ "msq-5ch-gbf_s1": {
+  "exp": "msq-5ch-gbf",
+  "seed": 1,
+  "channels": 5,
+  "mode": "gb3",
+  "mAP50": 0.3964,
+  "mAP50-95": 0.2135,
+  "ap50": {
+   "Pedestrian": 0.5176,
+   "Car": 0.8127,
+   "Cyclist": 0.4494,
+   "Motorcycle": 0.3359,
+   "Truck": 0.4425,
+   "Bus": 0.2163,
+   "Tramway": 0.0
+  }
+ },
+ "msq-4ch_s1": {
+  "exp": "msq-4ch",
+  "seed": 1,
+  "channels": 4,
+  "mode": "",
+  "mAP50": 0.3942,
+  "mAP50-95": 0.2002,
+  "ap50": {
+   "Pedestrian": 0.505,
+   "Car": 0.7941,
+   "Cyclist": 0.4727,
+   "Motorcycle": 0.0442,
+   "Truck": 0.5693,
+   "Bus": 0.374,
+   "Tramway": 0.0
+  }
+ },
+ "msq-4ch_s2": {
+  "exp": "msq-4ch",
+  "seed": 2,
+  "channels": 4,
+  "mode": "",
+  "mAP50": 0.388,
+  "mAP50-95": 0.2074,
+  "ap50": {
+   "Pedestrian": 0.5072,
+   "Car": 0.8057,
+   "Cyclist": 0.4592,
+   "Motorcycle": 0.1434,
+   "Truck": 0.4515,
+   "Bus": 0.3489,
+   "Tramway": 0.0
+  }
+ },
+ "msq-5ch_s2": {
+  "exp": "msq-5ch",
+  "seed": 2,
+  "channels": 5,
+  "mode": "",
+  "mAP50": 0.3983,
+  "mAP50-95": 0.2169,
+  "ap50": {
+   "Pedestrian": 0.5022,
+   "Car": 0.7927,
+   "Cyclist": 0.4253,
+   "Motorcycle": 0.1358,
+   "Truck": 0.5395,
+   "Bus": 0.3909,
+   "Tramway": 0.0013
+  }
+ }
+}

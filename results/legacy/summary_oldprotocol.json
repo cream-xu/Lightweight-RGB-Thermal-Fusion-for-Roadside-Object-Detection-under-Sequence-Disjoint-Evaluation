@@ -1,0 +1,317 @@
+{
+ "rgb": {
+  "exp": "rgb",
+  "channels": 3,
+  "mAP50": 0.7194,
+  "mAP50-95": 0.513,
+  "ap50": {
+   "Pedestrian": 0.6296,
+   "Car": 0.8507,
+   "Cyclist": 0.6328,
+   "Motorcycle": 0.4293,
+   "Truck": 0.801,
+   "Bus": 0.6974,
+   "Tramway": 0.995
+  }
+ },
+ "ir": {
+  "exp": "ir",
+  "channels": 3,
+  "mAP50": 0.5332,
+  "mAP50-95": 0.3667,
+  "ap50": {
+   "Pedestrian": 0.377,
+   "Car": 0.729,
+   "Cyclist": 0.4508,
+   "Motorcycle": 0.0,
+   "Truck": 0.5724,
+   "Bus": 0.6082,
+   "Tramway": 0.995
+  }
+ },
+ "4ch": {
+  "exp": "4ch",
+  "channels": 4,
+  "mAP50": 0.7393,
+  "mAP50-95": 0.5327,
+  "ap50": {
+   "Pedestrian": 0.6372,
+   "Car": 0.85,
+   "Cyclist": 0.6797,
+   "Motorcycle": 0.379,
+   "Truck": 0.8088,
+   "Bus": 0.8252,
+   "Tramway": 0.995
+  }
+ },
+ "5ch": {
+  "exp": "5ch",
+  "channels": 5,
+  "mAP50": 0.7554,
+  "mAP50-95": 0.5423,
+  "ap50": {
+   "Pedestrian": 0.6426,
+   "Car": 0.8569,
+   "Cyclist": 0.6892,
+   "Motorcycle": 0.555,
+   "Truck": 0.7626,
+   "Bus": 0.7864,
+   "Tramway": 0.995
+  }
+ },
+ "6ch": {
+  "exp": "6ch",
+  "channels": 6,
+  "mAP50": 0.7268,
+  "mAP50-95": 0.525,
+  "ap50": {
+   "Pedestrian": 0.6273,
+   "Car": 0.8529,
+   "Cyclist": 0.6267,
+   "Motorcycle": 0.3762,
+   "Truck": 0.8025,
+   "Bus": 0.8071,
+   "Tramway": 0.995
+  }
+ },
+ "5ch-img": {
+  "exp": "5ch-img",
+  "channels": 5,
+  "mAP50": 0.7328,
+  "mAP50-95": 0.5203,
+  "ap50": {
+   "Pedestrian": 0.6354,
+   "Car": 0.8481,
+   "Cyclist": 0.6755,
+   "Motorcycle": 0.445,
+   "Truck": 0.7821,
+   "Bus": 0.7489,
+   "Tramway": 0.995
+  }
+ },
+ "4ch-img": {
+  "exp": "4ch-img",
+  "channels": 4,
+  "mAP50": 0.7134,
+  "mAP50-95": 0.5023,
+  "ap50": {
+   "Pedestrian": 0.6318,
+   "Car": 0.8448,
+   "Cyclist": 0.6984,
+   "Motorcycle": 0.3519,
+   "Truck": 0.82,
+   "Bus": 0.652,
+   "Tramway": 0.995
+  }
+ },
+ "6ch-img": {
+  "exp": "6ch-img",
+  "channels": 6,
+  "mAP50": 0.7297,
+  "mAP50-95": 0.5301,
+  "ap50": {
+   "Pedestrian": 0.6451,
+   "Car": 0.8548,
+   "Cyclist": 0.6469,
+   "Motorcycle": 0.445,
+   "Truck": 0.8065,
+   "Bus": 0.7142,
+   "Tramway": 0.995
+  }
+ },
+ "5ch-fp32": {
+  "exp": "5ch-fp32",
+  "channels": 5,
+  "mAP50": 0.7216,
+  "mAP50-95": 0.5287,
+  "ap50": {
+   "Pedestrian": 0.6324,
+   "Car": 0.8545,
+   "Cyclist": 0.658,
+   "Motorcycle": 0.467,
+   "Truck": 0.7867,
+   "Bus": 0.6578,
+   "Tramway": 0.995
+  }
+ },
+ "full-4ch-img": {
+  "exp": "full-4ch-img",
+  "channels": 4,
+  "mAP50": 0.5843,
+  "mAP50-95": 0.3762,
+  "ap50": {
+   "Pedestrian": 0.6304,
+   "Car": 0.8261,
+   "Cyclist": 0.5527,
+   "Motorcycle": 0.41,
+   "Truck": 0.4899,
+   "Bus": 0.4151,
+   "Tramway": 0.766
+  }
+ },
+ "full-4ch": {
+  "exp": "full-4ch",
+  "channels": 4,
+  "mAP50": 0.5892,
+  "mAP50-95": 0.3748,
+  "ap50": {
+   "Pedestrian": 0.6094,
+   "Car": 0.8187,
+   "Cyclist": 0.5402,
+   "Motorcycle": 0.3623,
+   "Truck": 0.5547,
+   "Bus": 0.47,
+   "Tramway": 0.7688
+  }
+ },
+ "full-4ch-gbf": {
+  "exp": "full-4ch-gbf",
+  "channels": 4,
+  "mAP50": 0.612,
+  "mAP50-95": 0.3897,
+  "ap50": {
+   "Pedestrian": 0.6415,
+   "Car": 0.8451,
+   "Cyclist": 0.5681,
+   "Motorcycle": 0.4072,
+   "Truck": 0.4745,
+   "Bus": 0.5406,
+   "Tramway": 0.8069
+  }
+ },
+ "full-4ch-tbf": {
+  "exp": "full-4ch-tbf",
+  "channels": 4,
+  "mAP50": 0.5916,
+  "mAP50-95": 0.3898,
+  "ap50": {
+   "Pedestrian": 0.6389,
+   "Car": 0.8349,
+   "Cyclist": 0.5677,
+   "Motorcycle": 0.3962,
+   "Truck": 0.4578,
+   "Bus": 0.45,
+   "Tramway": 0.7956
+  }
+ },
+ "full-4ch-gsw": {
+  "exp": "full-4ch-gsw",
+  "channels": 4,
+  "mAP50": 0.6047,
+  "mAP50-95": 0.3877,
+  "ap50": {
+   "Pedestrian": 0.6439,
+   "Car": 0.838,
+   "Cyclist": 0.5701,
+   "Motorcycle": 0.3579,
+   "Truck": 0.5343,
+   "Bus": 0.4954,
+   "Tramway": 0.7931
+  }
+ },
+ "full-4ch_s1": {
+  "exp": "full-4ch",
+  "channels": 4,
+  "mAP50": 0.5752,
+  "mAP50-95": 0.377,
+  "ap50": {
+   "Pedestrian": 0.6173,
+   "Car": 0.8172,
+   "Cyclist": 0.5455,
+   "Motorcycle": 0.3911,
+   "Truck": 0.4672,
+   "Bus": 0.4221,
+   "Tramway": 0.7663
+  }
+ },
+ "full-4ch-gbf_s1": {
+  "exp": "full-4ch-gbf",
+  "channels": 4,
+  "mAP50": 0.6046,
+  "mAP50-95": 0.3933,
+  "ap50": {
+   "Pedestrian": 0.6541,
+   "Car": 0.8485,
+   "Cyclist": 0.5667,
+   "Motorcycle": 0.4119,
+   "Truck": 0.5451,
+   "Bus": 0.4408,
+   "Tramway": 0.7649
+  }
+ },
+ "full-rgb": {
+  "exp": "full-rgb",
+  "channels": 3,
+  "mAP50": 0.5657,
+  "mAP50-95": 0.3682,
+  "ap50": {
+   "Pedestrian": 0.6144,
+   "Car": 0.813,
+   "Cyclist": 0.536,
+   "Motorcycle": 0.3469,
+   "Truck": 0.464,
+   "Bus": 0.4262,
+   "Tramway": 0.7591
+  }
+ },
+ "full-ir": {
+  "exp": "full-ir",
+  "channels": 3,
+  "mAP50": 0.4177,
+  "mAP50-95": 0.2409,
+  "ap50": {
+   "Pedestrian": 0.3732,
+   "Car": 0.6757,
+   "Cyclist": 0.3566,
+   "Motorcycle": 0.1199,
+   "Truck": 0.3215,
+   "Bus": 0.3132,
+   "Tramway": 0.7638
+  }
+ },
+ "5ch-gbf": {
+  "exp": "5ch-gbf",
+  "channels": 5,
+  "mAP50": 0.7437,
+  "mAP50-95": 0.5318,
+  "ap50": {
+   "Pedestrian": 0.6539,
+   "Car": 0.8495,
+   "Cyclist": 0.6749,
+   "Motorcycle": 0.5,
+   "Truck": 0.7675,
+   "Bus": 0.7654,
+   "Tramway": 0.995
+  }
+ },
+ "5ch-tbf": {
+  "exp": "5ch-tbf",
+  "channels": 5,
+  "mAP50": 0.6979,
+  "mAP50-95": 0.5251,
+  "ap50": {
+   "Pedestrian": 0.6446,
+   "Car": 0.8596,
+   "Cyclist": 0.6877,
+   "Motorcycle": 0.335,
+   "Truck": 0.7915,
+   "Bus": 0.572,
+   "Tramway": 0.995
+  }
+ },
+ "4ch-gbf": {
+  "exp": "4ch-gbf",
+  "channels": 4,
+  "mAP50": 0.7271,
+  "mAP50-95": 0.5361,
+  "ap50": {
+   "Pedestrian": 0.6534,
+   "Car": 0.8515,
+   "Cyclist": 0.6919,
+   "Motorcycle": 0.395,
+   "Truck": 0.8038,
+   "Bus": 0.6988,
+   "Tramway": 0.995
+  }
+ }
+}

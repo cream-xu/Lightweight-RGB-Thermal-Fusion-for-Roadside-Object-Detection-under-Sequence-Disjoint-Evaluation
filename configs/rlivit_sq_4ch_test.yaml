@@ -1,0 +1,13 @@
+# R-LiViT 序列级新协议 4ch: train / test (held-out, 方案冻结后仅评估一次)
+channels: 4
+path: datasets/RLiViT/rlivit_sq/rgb
+train: images/train
+val: images/test
+names:
+  0: Pedestrian
+  1: Car
+  2: Cyclist
+  3: Motorcycle
+  4: Truck
+  5: Bus
+  6: Tramway

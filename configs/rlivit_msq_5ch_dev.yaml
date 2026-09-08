@@ -1,0 +1,13 @@
+# 三模态子集v2 5ch (dev): rlivit_multi_sq 序列不相交
+channels: 5
+path: datasets/RLiViT/rlivit_multi_sq/rgb
+train: images/train
+val: images/dev
+names:
+  0: Pedestrian
+  1: Car
+  2: Cyclist
+  3: Motorcycle
+  4: Truck
+  5: Bus
+  6: Tramway

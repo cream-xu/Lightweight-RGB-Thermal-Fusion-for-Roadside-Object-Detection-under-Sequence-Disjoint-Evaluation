@@ -1,0 +1,14 @@
+# python
+__pycache__/
+*.pyc
+
+# training artifacts (not redistributed)
+*.pt
+*.log
+runs/
+datasets/
+_release/
+
+# misc
+.auto*.done
+.DS_Store

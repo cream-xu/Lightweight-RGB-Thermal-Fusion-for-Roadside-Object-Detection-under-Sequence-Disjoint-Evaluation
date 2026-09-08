@@ -1,0 +1,7 @@
+# LLVIP 4ch 干净协议: train(11025) / dev(1000, checkpoint选择) / 完整test(3463)
+channels: 4
+path: datasets/LLVIP/LLVIP/yolo_fusion
+train: images/train
+val: images/dev
+names:
+  0: person

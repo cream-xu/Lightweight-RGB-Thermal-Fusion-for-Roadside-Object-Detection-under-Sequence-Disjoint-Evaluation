@@ -1,0 +1,32 @@
+{
+ "full-4ch": {
+  "params": 2591349,
+  "GFLOPs": 3.24,
+  "ms_per_img": 10.5,
+  "FPS": 95.2
+ },
+ "full-4ch-tbf": {
+  "params": 2602693,
+  "GFLOPs": 3.54,
+  "ms_per_img": 11.36,
+  "FPS": 88.1,
+  "delta_params": 11344,
+  "delta_params_pct": 0.44
+ },
+ "full-4ch-gsw": {
+  "params": 2602757,
+  "GFLOPs": 3.54,
+  "ms_per_img": 11.57,
+  "FPS": 86.4,
+  "delta_params": 11408,
+  "delta_params_pct": 0.44
+ },
+ "full-4ch-gbf": {
+  "params": 2607893,
+  "GFLOPs": 3.54,
+  "ms_per_img": 11.77,
+  "FPS": 84.9,
+  "delta_params": 16544,
+  "delta_params_pct": 0.64
+ }
+}

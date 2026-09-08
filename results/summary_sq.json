@@ -1,0 +1,240 @@
+{
+ "sq-4ch_s0": {
+  "exp": "sq-4ch",
+  "seed": 0,
+  "channels": 4,
+  "mode": "",
+  "mAP50": 0.6144,
+  "mAP50-95": 0.3897,
+  "ap50": {
+   "Pedestrian": 0.6588,
+   "Car": 0.8018,
+   "Cyclist": 0.5963,
+   "Motorcycle": 0.3981,
+   "Truck": 0.6279,
+   "Bus": 0.5787,
+   "Tramway": 0.6389
+  }
+ },
+ "sq-4ch-gbf_s0": {
+  "exp": "sq-4ch-gbf",
+  "seed": 0,
+  "channels": 4,
+  "mode": "gbf",
+  "mAP50": 0.6254,
+  "mAP50-95": 0.4012,
+  "ap50": {
+   "Pedestrian": 0.6816,
+   "Car": 0.8105,
+   "Cyclist": 0.6146,
+   "Motorcycle": 0.4161,
+   "Truck": 0.6042,
+   "Bus": 0.6074,
+   "Tramway": 0.6431
+  }
+ },
+ "sq-4ch-tbf_s0": {
+  "exp": "sq-4ch-tbf",
+  "seed": 0,
+  "channels": 4,
+  "mode": "tbf",
+  "mAP50": 0.6047,
+  "mAP50-95": 0.3912,
+  "ap50": {
+   "Pedestrian": 0.6706,
+   "Car": 0.8146,
+   "Cyclist": 0.6056,
+   "Motorcycle": 0.3683,
+   "Truck": 0.5985,
+   "Bus": 0.5128,
+   "Tramway": 0.6622
+  }
+ },
+ "sq-4ch-gsw_s0": {
+  "exp": "sq-4ch-gsw",
+  "seed": 0,
+  "channels": 4,
+  "mode": "gsw",
+  "mAP50": 0.6316,
+  "mAP50-95": 0.4033,
+  "ap50": {
+   "Pedestrian": 0.6814,
+   "Car": 0.818,
+   "Cyclist": 0.615,
+   "Motorcycle": 0.4223,
+   "Truck": 0.6171,
+   "Bus": 0.6274,
+   "Tramway": 0.6398
+  }
+ },
+ "sq-rgb_s0": {
+  "exp": "sq-rgb",
+  "seed": 0,
+  "channels": 3,
+  "mode": "",
+  "mAP50": 0.5673,
+  "mAP50-95": 0.361,
+  "ap50": {
+   "Pedestrian": 0.6509,
+   "Car": 0.803,
+   "Cyclist": 0.5512,
+   "Motorcycle": 0.5788,
+   "Truck": 0.4099,
+   "Bus": 0.5531,
+   "Tramway": 0.4244
+  }
+ },
+ "sq-ir_s0": {
+  "exp": "sq-ir",
+  "seed": 0,
+  "channels": 3,
+  "mode": "",
+  "mAP50": 0.4107,
+  "mAP50-95": 0.2263,
+  "ap50": {
+   "Pedestrian": 0.4281,
+   "Car": 0.672,
+   "Cyclist": 0.3794,
+   "Motorcycle": 0.2599,
+   "Truck": 0.2873,
+   "Bus": 0.4866,
+   "Tramway": 0.3615
+  }
+ },
+ "sq-4ch_s1": {
+  "exp": "sq-4ch",
+  "seed": 1,
+  "channels": 4,
+  "mode": "",
+  "mAP50": 0.6124,
+  "mAP50-95": 0.3935,
+  "ap50": {
+   "Pedestrian": 0.6581,
+   "Car": 0.7998,
+   "Cyclist": 0.5991,
+   "Motorcycle": 0.4448,
+   "Truck": 0.5962,
+   "Bus": 0.5461,
+   "Tramway": 0.6426
+  }
+ },
+ "sq-4ch-gbf_s1": {
+  "exp": "sq-4ch-gbf",
+  "seed": 1,
+  "channels": 4,
+  "mode": "gbf",
+  "mAP50": 0.6023,
+  "mAP50-95": 0.389,
+  "ap50": {
+   "Pedestrian": 0.6698,
+   "Car": 0.8061,
+   "Cyclist": 0.5818,
+   "Motorcycle": 0.3927,
+   "Truck": 0.5719,
+   "Bus": 0.556,
+   "Tramway": 0.6377
+  }
+ },
+ "sq-4ch_s2": {
+  "exp": "sq-4ch",
+  "seed": 2,
+  "channels": 4,
+  "mode": "",
+  "mAP50": 0.586,
+  "mAP50-95": 0.3767,
+  "ap50": {
+   "Pedestrian": 0.6465,
+   "Car": 0.7869,
+   "Cyclist": 0.5689,
+   "Motorcycle": 0.3784,
+   "Truck": 0.6399,
+   "Bus": 0.439,
+   "Tramway": 0.6424
+  }
+ },
+ "sq-4ch-gbf_s2": {
+  "exp": "sq-4ch-gbf",
+  "seed": 2,
+  "channels": 4,
+  "mode": "gbf",
+  "mAP50": 0.6023,
+  "mAP50-95": 0.3958,
+  "ap50": {
+   "Pedestrian": 0.6689,
+   "Car": 0.8034,
+   "Cyclist": 0.5688,
+   "Motorcycle": 0.3795,
+   "Truck": 0.6452,
+   "Bus": 0.515,
+   "Tramway": 0.6356
+  }
+ },
+ "sq-4ch-gsw_s1": {
+  "exp": "sq-4ch-gsw",
+  "seed": 1,
+  "channels": 4,
+  "mode": "gsw",
+  "mAP50": 0.6048,
+  "mAP50-95": 0.3945,
+  "ap50": {
+   "Pedestrian": 0.6794,
+   "Car": 0.8061,
+   "Cyclist": 0.6032,
+   "Motorcycle": 0.3747,
+   "Truck": 0.6069,
+   "Bus": 0.5361,
+   "Tramway": 0.6272
+  }
+ },
+ "sq-4ch-gsw_s2": {
+  "exp": "sq-4ch-gsw",
+  "seed": 2,
+  "channels": 4,
+  "mode": "gsw",
+  "mAP50": 0.6231,
+  "mAP50-95": 0.4044,
+  "ap50": {
+   "Pedestrian": 0.679,
+   "Car": 0.8094,
+   "Cyclist": 0.6,
+   "Motorcycle": 0.3813,
+   "Truck": 0.6153,
+   "Bus": 0.6204,
+   "Tramway": 0.6562
+  }
+ },
+ "sq-rgb_s1": {
+  "exp": "sq-rgb",
+  "seed": 1,
+  "channels": 3,
+  "mode": "",
+  "mAP50": 0.5593,
+  "mAP50-95": 0.3519,
+  "ap50": {
+   "Pedestrian": 0.6367,
+   "Car": 0.7857,
+   "Cyclist": 0.5535,
+   "Motorcycle": 0.5475,
+   "Truck": 0.4029,
+   "Bus": 0.5165,
+   "Tramway": 0.4722
+  }
+ },
+ "sq-ir_s1": {
+  "exp": "sq-ir",
+  "seed": 1,
+  "channels": 3,
+  "mode": "",
+  "mAP50": 0.42,
+  "mAP50-95": 0.2319,
+  "ap50": {
+   "Pedestrian": 0.4305,
+   "Car": 0.682,
+   "Cyclist": 0.4083,
+   "Motorcycle": 0.2851,
+   "Truck": 0.2779,
+   "Bus": 0.4536,
+   "Tramway": 0.4026
+  }
+ }
+}

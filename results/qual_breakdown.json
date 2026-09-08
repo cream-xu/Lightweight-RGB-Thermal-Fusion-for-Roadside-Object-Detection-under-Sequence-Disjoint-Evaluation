@@ -1,0 +1,232 @@
+{
+ "thresholds": {
+  "iou": 0.5,
+  "conf": 0.25,
+  "matching": "conf降序贪心一对一"
+ },
+ "scope": "夜间test帧 (168帧)",
+ "states": {
+  "improved": "(FN,TP)",
+  "degraded": "(TP,FN)",
+  "unchanged": "(TP,TP)",
+  "both_missed": "(FN,FN) — 两模型均漏检, 不计入unchanged"
+ },
+ "total": {
+  "improved": [
+   144,
+   0.0559
+  ],
+  "degraded": [
+   70,
+   0.0272
+  ],
+  "unchanged": [
+   1749,
+   0.679
+  ],
+  "both_missed": [
+   613,
+   0.238
+  ],
+  "n_gt": 2576
+ },
+ "per_class": {
+  "Pedestrian": {
+   "improved": [
+    78,
+    0.0787
+   ],
+   "degraded": [
+    38,
+    0.0383
+   ],
+   "unchanged": [
+    546,
+    0.551
+   ],
+   "both_missed": [
+    329,
+    0.332
+   ],
+   "n_gt": 991
+  },
+  "Car": {
+   "improved": [
+    58,
+    0.0425
+   ],
+   "degraded": [
+    27,
+    0.0198
+   ],
+   "unchanged": [
+    1096,
+    0.8035
+   ],
+   "both_missed": [
+    183,
+    0.1342
+   ],
+   "n_gt": 1364
+  },
+  "Cyclist": {
+   "improved": [
+    8,
+    0.0465
+   ],
+   "degraded": [
+    4,
+    0.0233
+   ],
+   "unchanged": [
+    83,
+    0.4826
+   ],
+   "both_missed": [
+    77,
+    0.4477
+   ],
+   "n_gt": 172
+  },
+  "Motorcycle": {
+   "improved": [
+    0,
+    0.0
+   ],
+   "degraded": [
+    1,
+    0.0769
+   ],
+   "unchanged": [
+    0,
+    0.0
+   ],
+   "both_missed": [
+    12,
+    0.9231
+   ],
+   "n_gt": 13
+  },
+  "Truck": {
+   "improved": [
+    0,
+    0.0
+   ],
+   "degraded": [
+    0,
+    0.0
+   ],
+   "unchanged": [
+    0,
+    0.0
+   ],
+   "both_missed": [
+    3,
+    1.0
+   ],
+   "n_gt": 3
+  },
+  "Bus": {
+   "improved": [
+    0,
+    0.0
+   ],
+   "degraded": [
+    0,
+    0.0
+   ],
+   "unchanged": [
+    12,
+    1.0
+   ],
+   "both_missed": [
+    0,
+    0.0
+   ],
+   "n_gt": 12
+  },
+  "Tramway": {
+   "improved": [
+    0,
+    0.0
+   ],
+   "degraded": [
+    0,
+    0.0
+   ],
+   "unchanged": [
+    12,
+    0.5714
+   ],
+   "both_missed": [
+    9,
+    0.4286
+   ],
+   "n_gt": 21
+  }
+ },
+ "per_size": {
+  "small": {
+   "improved": [
+    141,
+    0.0601
+   ],
+   "degraded": [
+    68,
+    0.029
+   ],
+   "unchanged": [
+    1532,
+    0.653
+   ],
+   "both_missed": [
+    605,
+    0.2579
+   ],
+   "n_gt": 2346
+  },
+  "medium": {
+   "improved": [
+    2,
+    0.0159
+   ],
+   "degraded": [
+    1,
+    0.0079
+   ],
+   "unchanged": [
+    119,
+    0.9444
+   ],
+   "both_missed": [
+    4,
+    0.0317
+   ],
+   "n_gt": 126
+  },
+  "large": {
+   "improved": [
+    1,
+    0.0096
+   ],
+   "degraded": [
+    1,
+    0.0096
+   ],
+   "unchanged": [
+    98,
+    0.9423
+   ],
+   "both_missed": [
+    4,
+    0.0385
+   ],
+   "n_gt": 104
+  }
+ },
+ "size_def": {
+  "small": "<4608px²",
+  "medium": "4608~18432px²",
+  "large": "≥18432px²"
+ }
+}
