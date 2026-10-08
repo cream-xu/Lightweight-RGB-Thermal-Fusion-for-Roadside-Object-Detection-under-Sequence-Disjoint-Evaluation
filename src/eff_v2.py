@@ -71,9 +71,9 @@ def measure_e2e(model, imgs, name, ir_dir=None):
 
 def main():
     imgs = sorted([os.path.join(T.SQ if hasattr(T, 'SQ') else
-                                r'\datasets\RLiViT\rlivit_sq',
+                                'datasets/RLiViT/rlivit_sq',
                                 'rgb', 'images', 'test', f)
-                   for f in os.listdir(r'\datasets\RLiViT\rlivit_sq\rgb\images\test')])[:N_IMG]
+                   for f in os.listdir('datasets/RLiViT/rlivit_sq/rgb/images/test')])[:N_IMG]
 
     out = {}
     # ① thop覆盖审计: 对GatedFusion单独profile + 手动账
@@ -95,7 +95,7 @@ def main():
             out['gate_audit_error'] = str(e)
 
     # ② 端到端时延 (concat vs gbf, 4ch = rgb+ir双文件)
-    SQ_IR_IMG = r'\datasets\RLiViT\rlivit_sq\ir\images\test'
+    SQ_IR_IMG = 'datasets/RLiViT/rlivit_sq/ir/images/test'
     for exp in ('sq-4ch', 'sq-4ch-gbf'):
         try:
             m = load_sq_eval_model(exp, 0)
@@ -110,8 +110,8 @@ def main():
         from ultralytics.utils.nms import non_max_suppression
         m_rgb = load_sq_eval_model('sq-rgb', 0).model.half().cuda().eval()
         m_ir = load_sq_eval_model('sq-ir', 0).model.half().cuda().eval()
-        SQ_IMG = r'\datasets\RLiViT\rlivit_sq\rgb\images\test'
-        SQ_IR = r'\datasets\RLiViT\rlivit_sq\ir\images\test'
+        SQ_IMG = 'datasets/RLiViT/rlivit_sq/rgb/images/test'
+        SQ_IR = 'datasets/RLiViT/rlivit_sq/ir/images/test'
         ts = []
         with torch.no_grad():
             for _ in range(5):

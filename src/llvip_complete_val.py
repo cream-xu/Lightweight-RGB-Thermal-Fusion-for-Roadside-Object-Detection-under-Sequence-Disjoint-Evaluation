@@ -6,7 +6,7 @@ import os
 import numpy as np
 import cv2
 
-BASE = r'\datasets\LLVIP\LLVIP'
+BASE = 'datasets/LLVIP/LLVIP'
 VAL_DIR = os.path.join(BASE, 'yolo_fusion', 'images', 'val')
 
 src_test = set(f.rsplit('.', 1)[0] for f in os.listdir(os.path.join(BASE, 'infrared', 'test')))

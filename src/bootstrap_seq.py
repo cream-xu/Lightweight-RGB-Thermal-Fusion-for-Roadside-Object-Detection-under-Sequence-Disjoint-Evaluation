@@ -10,10 +10,12 @@ import numpy as np
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 
-SQ = r'\datasets\RLiViT\rlivit_sq'
-MSQ = r'\datasets\RLiViT\rlivit_multi_sq'
-PROJ_SQ = r'\runs\rlivit_sq'
-PROJ_MSQ = r'\runs\rlivit_msq'
+SQ = 'datasets/RLiViT/rlivit_sq'
+MSQ = 'datasets/RLiViT/rlivit_multi_sq'
+PROJ_SQ = 'runs/rlivit_sq'
+PROJ_MSQ = 'runs/rlivit_msq'
+# Historical implementation: set(sample) discards multiplicity. Stored intervals
+# require recomputation with duplicated/remapped images before inferential use.
 N_BOOT_50 = 3000   # AP50: 单IoU阈值快速eval (审计P1-2要求2000-5000)
 N_BOOT_AP = 1000   # AP(50-95): 全阈值慢eval
 RNG = np.random.default_rng(42)
@@ -66,7 +68,7 @@ def eval_ap(gt, dets, img_ids, ap50_only=True):
 
 
 def bootstrap_pair(gt, dets_a, dets_b, seq_of_img, img_pool):
-    """img_pool: rid列表; seq_of_img: {rid: seq}; 重采样序列 → 帧集合 → ΔAP50(1000x) + ΔAP(200x)"""
+    """img_pool: rid列表; seq_of_img: {rid: seq}; 历史序列重采样诊断；重复序列被去重，不能作为标准有放回bootstrap"""
     seqs = sorted(set(seq_of_img.values()))
     rid_to_seq = {rid: seq_of_img[rid] for rid in img_pool}
 

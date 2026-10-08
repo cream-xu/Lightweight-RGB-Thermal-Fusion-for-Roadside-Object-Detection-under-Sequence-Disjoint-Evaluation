@@ -49,10 +49,10 @@ def manifest_md5(p):
 # 数据集manifests
 ARCH['manifests'] = {}
 for key, p in [
-    ('rlivit_full', r'datasets\RLiViT\rlivit_full\manifest.csv'),
-    ('rlivit_sq', r'datasets\RLiViT\rlivit_sq\manifest.csv'),
-    ('rlivit_multi_sq', r'datasets\RLiViT\rlivit_multi_sq\manifest.csv'),
-    ('llvip_dev', r'datasets\LLVIP\LLVIP\yolo_fusion\dev_manifest.csv'),
+    ('rlivit_full', 'datasets/RLiViT/rlivit_full/manifest.csv'),
+    ('rlivit_sq', 'datasets/RLiViT/rlivit_sq/manifest.csv'),
+    ('rlivit_multi_sq', 'datasets/RLiViT/rlivit_multi_sq/manifest.csv'),
+    ('llvip_dev', 'datasets/LLVIP/LLVIP/yolo_fusion/dev_manifest.csv'),
 ]:
     fp = os.path.join(ROOT, p)
     if os.path.exists(fp):
@@ -81,17 +81,17 @@ def scan_runs(proj, tag):
     return runs
 
 
-scan_runs(os.path.join(ROOT, r'runs\rlivit'), 'old_protocol')
-scan_runs(os.path.join(ROOT, r'runs\rlivit_sq'), 'sq_protocol')
-scan_runs(os.path.join(ROOT, r'runs\rlivit_msq'), 'msq_protocol')
-scan_runs(os.path.join(ROOT, r'runs\llvip_v2'), 'llvip_v2')
+scan_runs(os.path.join(ROOT, 'runs/rlivit'), 'old_protocol')
+scan_runs(os.path.join(ROOT, 'runs/rlivit_sq'), 'sq_protocol')
+scan_runs(os.path.join(ROOT, 'runs/rlivit_msq'), 'msq_protocol')
+scan_runs(os.path.join(ROOT, 'runs/llvip_v2'), 'llvip_v2')
 
 # 结果汇总
 for key, p in [
-    ('summary_sq', r'runs\rlivit_sq\summary_sq.json'),
-    ('summary_msq', r'runs\rlivit_msq\summary.json'),
-    ('summary_llvip_v2', r'runs\llvip_v2\summary.json'),
-    ('efficiency', r'runs\rlivit\efficiency.json'),
+    ('summary_sq', 'runs/rlivit_sq/summary_sq.json'),
+    ('summary_msq', 'runs/rlivit_msq/summary.json'),
+    ('summary_llvip_v2', 'runs/llvip_v2/summary.json'),
+    ('efficiency', 'runs/rlivit/efficiency.json'),
 ]:
     fp = os.path.join(ROOT, p)
     if os.path.exists(fp):

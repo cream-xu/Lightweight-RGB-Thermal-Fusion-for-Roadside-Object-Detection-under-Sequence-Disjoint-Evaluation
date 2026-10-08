@@ -13,7 +13,7 @@ from PIL import Image
 import cv2
 import build_5ch as B
 
-OUT = r'\datasets\RLiViT\rlivit_multi_sq'
+OUT = 'datasets/RLiViT/rlivit_multi_sq'
 MAX_MED = 60.0
 IMG_W, IMG_H = B.IMG_W, B.IMG_H
 

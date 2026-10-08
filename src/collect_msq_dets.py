@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from train_multi_sq import load_msq_model, PROJ
 
-MSQ = r'\datasets\RLiViT\rlivit_multi_sq'
+MSQ = 'datasets/RLiViT/rlivit_multi_sq'
 CONF = 0.001
 
 MODELS = [('msq-4ch', 0), ('msq-4ch', 1), ('msq-4ch', 2),

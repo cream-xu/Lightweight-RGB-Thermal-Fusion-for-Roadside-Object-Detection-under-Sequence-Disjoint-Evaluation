@@ -5,8 +5,8 @@
 import os, json, csv
 from collections import defaultdict
 
-PROJ = r'\runs\rlivit_sq'
-SQ = r'\datasets\RLiViT\rlivit_sq'
+PROJ = 'runs/rlivit_sq'
+SQ = 'datasets/RLiViT/rlivit_sq'
 IOU = 0.5
 IMG_W, IMG_H = 1280, 720
 SMALL = 0.005 * IMG_W * IMG_H

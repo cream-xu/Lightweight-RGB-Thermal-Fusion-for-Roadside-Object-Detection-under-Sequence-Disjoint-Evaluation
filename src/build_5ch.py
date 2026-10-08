@@ -12,7 +12,7 @@ import os, sys, bisect, json, random
 import cv2
 from PIL import Image
 
-BASE = r'\datasets\RLiViT'
+BASE = 'datasets/RLiViT'
 RGB_T_DIR = os.path.join(BASE, 'R-LiViT_RGB-T')
 LIDAR_DIR = os.path.join(BASE, 'R-LiViT_LiDAR')
 OUT = os.path.join(BASE, 'rlivit_multi')

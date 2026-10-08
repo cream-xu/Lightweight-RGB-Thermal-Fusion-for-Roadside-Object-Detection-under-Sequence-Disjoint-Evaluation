@@ -4,7 +4,7 @@ mod/{split}/*.png → mod/images/{split}/*.png; labels/{split} → rgb/labels/{s
 """
 import os, shutil
 
-OUT = r'\datasets\RLiViT\rlivit_multi_sq'
+OUT = 'datasets/RLiViT/rlivit_multi_sq'
 
 for mod in ('rgb', 'ir', 'depth', 'int'):
     for split in ('train', 'dev', 'test'):

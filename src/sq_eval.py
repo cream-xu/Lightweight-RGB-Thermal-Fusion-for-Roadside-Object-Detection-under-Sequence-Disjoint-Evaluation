@@ -13,7 +13,7 @@ from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 from train_rlivit_sq import load_sq_eval_model, PROJ, NAMES
 
-SQ = r'\datasets\RLiViT\rlivit_sq'
+SQ = 'datasets/RLiViT/rlivit_sq'
 CONF = 0.001
 NMS_IOU_LATE = 0.6
 

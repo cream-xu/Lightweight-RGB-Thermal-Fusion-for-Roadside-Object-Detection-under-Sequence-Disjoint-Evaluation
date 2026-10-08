@@ -11,9 +11,9 @@ import torch
 from ultralytics import YOLO
 import train_rlivit as T
 
-CFG_DEV = r'\datasets\configs\llvip_4ch_dev.yaml'
-CFG_FULL = r'\datasets\configs\llvip_4ch_full.yaml'
-PROJ = r'\runs\llvip_v2'
+CFG_DEV = 'configs/llvip_4ch_dev.yaml'
+CFG_FULL = 'configs/llvip_4ch_full.yaml'
+PROJ = 'runs/llvip_v2'
 
 
 def llvip_multi_read(im_path, channels):

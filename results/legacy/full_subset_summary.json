@@ -1,0 +1,222 @@
+{
+ "full-4ch|val_day": {
+  "mAP50": 0.6246,
+  "mAP50-95": 0.4135,
+  "ap50": {
+   "Pedestrian": 0.6137,
+   "Car": 0.8422,
+   "Cyclist": 0.5572,
+   "Motorcycle": 0.4669,
+   "Truck": 0.5169,
+   "Bus": 0.4666,
+   "Tramway": 0.9089
+  },
+  "recall": {
+   "Pedestrian": 0.5698,
+   "Car": 0.8119,
+   "Cyclist": 0.4753,
+   "Motorcycle": 0.4444,
+   "Truck": 0.4329,
+   "Bus": 0.5325,
+   "Tramway": 0.8958
+  }
+ },
+ "full-4ch|val_night": {
+  "mAP50": 0.4745,
+  "mAP50-95": 0.2359,
+  "ap50": {
+   "Pedestrian": 0.5939,
+   "Car": 0.7286,
+   "Cyclist": 0.4509,
+   "Motorcycle": 0.078,
+   "Truck": 0.758,
+   "Bus": 0.5776,
+   "Tramway": 0.1347
+  },
+  "recall": {
+   "Pedestrian": 0.5647,
+   "Car": 0.7256,
+   "Cyclist": 0.4448,
+   "Motorcycle": 0.0769,
+   "Truck": 0.7123,
+   "Bus": 0.5789,
+   "Tramway": 0.1667
+  }
+ },
+ "full-4ch-img|val_day": {
+  "mAP50": 0.6216,
+  "mAP50-95": 0.4168,
+  "ap50": {
+   "Pedestrian": 0.6356,
+   "Car": 0.8462,
+   "Cyclist": 0.5801,
+   "Motorcycle": 0.5139,
+   "Truck": 0.4748,
+   "Bus": 0.3987,
+   "Tramway": 0.9019
+  },
+  "recall": {
+   "Pedestrian": 0.5462,
+   "Car": 0.7775,
+   "Cyclist": 0.4601,
+   "Motorcycle": 0.4828,
+   "Truck": 0.3924,
+   "Bus": 0.3841,
+   "Tramway": 0.8958
+  }
+ },
+ "full-4ch-img|val_night": {
+  "mAP50": 0.4898,
+  "mAP50-95": 0.2332,
+  "ap50": {
+   "Pedestrian": 0.611,
+   "Car": 0.7393,
+   "Cyclist": 0.3782,
+   "Motorcycle": 0.1317,
+   "Truck": 0.7429,
+   "Bus": 0.6203,
+   "Tramway": 0.205
+  },
+  "recall": {
+   "Pedestrian": 0.5949,
+   "Car": 0.7751,
+   "Cyclist": 0.3487,
+   "Motorcycle": 0.1518,
+   "Truck": 0.4858,
+   "Bus": 0.5789,
+   "Tramway": 0.25
+  }
+ },
+ "full-4ch-gbf|val_day": {
+  "mAP50": 0.6361,
+  "mAP50-95": 0.4234,
+  "ap50": {
+   "Pedestrian": 0.6391,
+   "Car": 0.8528,
+   "Cyclist": 0.5978,
+   "Motorcycle": 0.4888,
+   "Truck": 0.4343,
+   "Bus": 0.527,
+   "Tramway": 0.9126
+  },
+  "recall": {
+   "Pedestrian": 0.5789,
+   "Car": 0.817,
+   "Cyclist": 0.4729,
+   "Motorcycle": 0.4241,
+   "Truck": 0.3976,
+   "Bus": 0.5065,
+   "Tramway": 0.8958
+  }
+ },
+ "full-4ch-gbf|val_night": {
+  "mAP50": 0.5434,
+  "mAP50-95": 0.2748,
+  "ap50": {
+   "Pedestrian": 0.6527,
+   "Car": 0.8081,
+   "Cyclist": 0.3937,
+   "Motorcycle": 0.2105,
+   "Truck": 0.735,
+   "Bus": 0.6561,
+   "Tramway": 0.3478
+  },
+  "recall": {
+   "Pedestrian": 0.5769,
+   "Car": 0.7645,
+   "Cyclist": 0.3236,
+   "Motorcycle": 0.1538,
+   "Truck": 0.7097,
+   "Bus": 0.4737,
+   "Tramway": 0.3333
+  }
+ },
+ "full-4ch-tbf|val_day": {
+  "mAP50": 0.6081,
+  "mAP50-95": 0.4159,
+  "ap50": {
+   "Pedestrian": 0.6425,
+   "Car": 0.8511,
+   "Cyclist": 0.5951,
+   "Motorcycle": 0.4805,
+   "Truck": 0.4084,
+   "Bus": 0.3797,
+   "Tramway": 0.8993
+  },
+  "recall": {
+   "Pedestrian": 0.5938,
+   "Car": 0.8186,
+   "Cyclist": 0.4915,
+   "Motorcycle": 0.4583,
+   "Truck": 0.3655,
+   "Bus": 0.3506,
+   "Tramway": 0.8815
+  }
+ },
+ "full-4ch-tbf|val_night": {
+  "mAP50": 0.5606,
+  "mAP50-95": 0.3031,
+  "ap50": {
+   "Pedestrian": 0.6263,
+   "Car": 0.776,
+   "Cyclist": 0.4103,
+   "Motorcycle": 0.1865,
+   "Truck": 0.7234,
+   "Bus": 0.8361,
+   "Tramway": 0.3658
+  },
+  "recall": {
+   "Pedestrian": 0.5279,
+   "Car": 0.7041,
+   "Cyclist": 0.3421,
+   "Motorcycle": 0.1538,
+   "Truck": 0.5806,
+   "Bus": 0.7895,
+   "Tramway": 0.3333
+  }
+ },
+ "full-4ch-gsw|val_day": {
+  "mAP50": 0.6183,
+  "mAP50-95": 0.4143,
+  "ap50": {
+   "Pedestrian": 0.6421,
+   "Car": 0.8507,
+   "Cyclist": 0.5872,
+   "Motorcycle": 0.4366,
+   "Truck": 0.4731,
+   "Bus": 0.4416,
+   "Tramway": 0.897
+  },
+  "recall": {
+   "Pedestrian": 0.5526,
+   "Car": 0.7818,
+   "Cyclist": 0.4401,
+   "Motorcycle": 0.4583,
+   "Truck": 0.3987,
+   "Bus": 0.4026,
+   "Tramway": 0.8958
+  }
+ },
+ "full-4ch-gsw|val_night": {
+  "mAP50": 0.5874,
+  "mAP50-95": 0.3009,
+  "ap50": {
+   "Pedestrian": 0.6483,
+   "Car": 0.7918,
+   "Cyclist": 0.4761,
+   "Motorcycle": 0.1782,
+   "Truck": 0.871,
+   "Bus": 0.7827,
+   "Tramway": 0.3636
+  },
+  "recall": {
+   "Pedestrian": 0.5831,
+   "Car": 0.7124,
+   "Cyclist": 0.4211,
+   "Motorcycle": 0.1619,
+   "Truck": 0.8387,
+   "Bus": 0.6842,
+   "Tramway": 0.318
+  }
+ }
+}

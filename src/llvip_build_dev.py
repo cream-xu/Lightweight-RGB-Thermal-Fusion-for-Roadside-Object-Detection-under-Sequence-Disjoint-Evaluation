@@ -6,7 +6,7 @@
 """
 import os, csv, random, shutil
 
-BASE = r'\datasets\LLVIP\LLVIP\yolo_fusion'
+BASE = 'datasets/LLVIP/LLVIP/yolo_fusion'
 SEED = 42
 N_DEV = 1000
 

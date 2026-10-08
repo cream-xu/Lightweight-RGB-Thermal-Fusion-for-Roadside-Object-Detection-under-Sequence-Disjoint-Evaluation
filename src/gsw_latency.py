@@ -7,8 +7,8 @@ import torch
 from train_rlivit_sq import load_sq_eval_model, PROJ
 from eff_v2 import measure_e2e
 
-SQ_IMG = r'\datasets\RLiViT\rlivit_sq\rgb\images\test'
-SQ_IR = r'\datasets\RLiViT\rlivit_sq\ir\images\test'
+SQ_IMG = 'datasets/RLiViT/rlivit_sq/rgb/images/test'
+SQ_IR = 'datasets/RLiViT/rlivit_sq/ir/images/test'
 N_IMG = 40
 
 

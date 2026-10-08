@@ -10,7 +10,7 @@ import torch
 from ultralytics import YOLO
 import train_rlivit as T
 
-PROJ = r'\runs\rlivit_msq'
+PROJ = 'runs/rlivit_msq'
 YAML_DIR = T.YAML_DIR
 
 EXPS = {

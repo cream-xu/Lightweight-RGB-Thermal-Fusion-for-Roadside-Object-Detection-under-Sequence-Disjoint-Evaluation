@@ -8,8 +8,8 @@
 import os, csv, json, shutil
 from collections import Counter
 
-SRC = r'\datasets\RLiViT\rlivit_full'
-DST = r'\datasets\RLiViT\rlivit_sq'
+SRC = 'datasets/RLiViT/rlivit_full'
+DST = 'datasets/RLiViT/rlivit_sq'
 
 rows = list(csv.DictReader(open(os.path.join(SRC, 'manifest.csv'))))
 assert len(rows) == 2400, len(rows)

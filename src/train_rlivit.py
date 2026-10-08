@@ -18,10 +18,10 @@ from pathlib import Path
 from ultralytics import YOLO
 from ultralytics.data.base import BaseDataset
 
-MULTI_BASE = r'\datasets\RLiViT\rlivit_multi'
-YAML_DIR = r'\datasets\configs'
-PRETRAINED = r'\yolo11n.pt'
-PROJ = r'\runs\rlivit'
+MULTI_BASE = 'datasets/RLiViT/rlivit_multi'
+YAML_DIR = 'configs'
+PRETRAINED = 'yolo11n.pt'
+PROJ = 'runs/rlivit'
 
 EXPS = {
     'rgb': ('rlivit_rgb.yaml', 3),
