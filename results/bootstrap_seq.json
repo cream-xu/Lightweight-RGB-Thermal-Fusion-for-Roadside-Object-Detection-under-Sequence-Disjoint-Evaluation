@@ -1,69 +1,170 @@
 {
- "n_seqs": 40,
- "n_frames": 480,
- "n_night_frames": 168,
- "n_boot_ap50": 3000,
- "n_boot_ap": 1000,
- "comparisons": {
-  "concat_vs_gbf_full": {
-   "dAP50_mean": 0.0037,
-   "dAP50_ci95": [
-    -0.0083,
-    0.017
-   ],
-   "dAP50_frac_pos": 0.7303333333333333,
-   "n50": 3000,
-   "dAP_mean": 0.0103,
-   "dAP_ci95": [
-    0.0017,
-    0.0202
-   ],
-   "n_ap": 1000
+  "generated_at": "2026-10-08T20:22:41",
+  "method": "paired_sequence_cluster_bootstrap_preserving_multiplicity",
+  "sampling_seed": 42,
+  "training_seed": 0,
+  "n_seqs": 40,
+  "n_frames": 480,
+  "n_night_frames": 168,
+  "n_boot_ap50": 3000,
+  "n_boot_ap": 1000,
+  "evaluation": {
+    "iou_thresholds": [
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.8999999999999999,
+      0.95
+    ],
+    "recall_thresholds": 101,
+    "max_detections_per_image_per_category": 100,
+    "matching": "pycocotools COCO bbox",
+    "tie_sort": "stable mergesort",
+    "absent_classes": "excluded following COCO convention",
+    "point_estimate": "direct AP difference on original image order",
+    "interval": "2.5th and 97.5th percentiles of paired differences"
   },
-  "concat_vs_gbf_night": {
-   "dAP50_mean": 0.0398,
-   "dAP50_ci95": [
-    0.0019,
-    0.0913
-   ],
-   "dAP50_frac_pos": 0.9896666666666667,
-   "n50": 3000,
-   "dAP_mean": 0.0387,
-   "dAP_ci95": [
-    0.0069,
-    0.0778
-   ],
-   "n_ap": 1000
+  "validation": {
+    "dets_sq-4ch_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 1.1102230246251565e-16
+    },
+    "dets_sq-4ch-gbf_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 1.1102230246251565e-16
+    },
+    "dets_sq-4ch-gsw_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 5.551115123125783e-17
+    },
+    "dets_msq-4ch_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 5.551115123125783e-17
+    },
+    "dets_msq-5ch_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 1.1102230246251565e-16
+    },
+    "original_main_metrics": [
+      {
+        "model": "sq-4ch",
+        "n_literal_checks": 4,
+        "max_absolute_error": 1.1102230246251565e-16,
+        "full_test_matches_recorded": true
+      },
+      {
+        "model": "sq-4ch-gbf",
+        "n_literal_checks": 4,
+        "max_absolute_error": 1.1102230246251565e-16,
+        "full_test_matches_recorded": true
+      },
+      {
+        "model": "sq-4ch-gsw",
+        "n_literal_checks": 4,
+        "max_absolute_error": 5.551115123125783e-17,
+        "full_test_matches_recorded": true
+      }
+    ]
   },
-  "concat_vs_gsw_full": {
-   "dAP50_mean": 0.0056,
-   "dAP50_ci95": [
-    -0.0071,
-    0.0173
-   ],
-   "dAP50_frac_pos": 0.825,
-   "n50": 3000,
-   "dAP_mean": 0.0084,
-   "dAP_ci95": [
-    0.0007,
-    0.0164
-   ],
-   "n_ap": 1000
+  "input_sha256": {
+    "dets_sq-4ch_s0.json": "f84c205becdd15ec8b24714d6b7f65b92121eb3a4faa3716c9e1605f891fc4cb",
+    "dets_sq-4ch-gbf_s0.json": "dc6ef42abb9b53b2b21dfdc0f605baed71f6c450b6b5ecc0f4811dce3c3afaa1",
+    "dets_sq-4ch-gsw_s0.json": "4d6c2f25ea21414484ef10ce17f0c30160e21d797d86497ab634648dddd7e4d9",
+    "dets_msq-4ch_s0.json": "9310ad5368e14000c20f0259ae83168b7bc6a723dc151620693c9ca041f0b3a3",
+    "dets_msq-5ch_s0.json": "9d2d4e30184374302125bcae53b27c0a631f61cce90d635843dd6e810ad9dcb0"
   },
-  "depth_4ch_vs_5ch": {
-   "dAP50_mean": 0.0182,
-   "dAP50_ci95": [
-    -0.026,
-    0.0691
-   ],
-   "dAP50_frac_pos": 0.767,
-   "n50": 3000,
-   "dAP_mean": 0.0052,
-   "dAP_ci95": [
-    -0.0133,
-    0.0265
-   ],
-   "n_ap": 1000
-  }
- }
+  "manifest_sha256": {
+    "sq": "07cb210f8dee0d091135ea158f980d6efa431d2ecbdc8920c997e30d49143745",
+    "msq": "4ed49ce6963aab0bd0ced84c736b59fd72ff936a8cbb2dd636d5e733ac1d85bd"
+  },
+  "comparisons": {
+    "concat_vs_gbf_full": {
+      "dAP50_point": 0.002524860549598107,
+      "dAP50_mean": 0.0038106652829726895,
+      "dAP50_ci95": [
+        -0.010358773303318502,
+        0.0191541386942022
+      ],
+      "dAP50_frac_pos": 0.6856666666666666,
+      "n50": 3000,
+      "dAP_point": 0.010008363005049092,
+      "dAP_mean": 0.01056101862189973,
+      "dAP_ci95": [
+        0.0005962860449361298,
+        0.023279427231451395
+      ],
+      "n_ap": 1000,
+      "n_seqs": 40,
+      "n_frames": 480
+    },
+    "concat_vs_gbf_night": {
+      "dAP50_point": 0.031625399835711665,
+      "dAP50_mean": 0.04000616170266202,
+      "dAP50_ci95": [
+        0.00045551492567095256,
+        0.09231860666027604
+      ],
+      "dAP50_frac_pos": 0.978,
+      "n50": 3000,
+      "dAP_point": 0.03330478177136276,
+      "dAP_mean": 0.039117978016851324,
+      "dAP_ci95": [
+        0.005679846488642975,
+        0.08072026987350048
+      ],
+      "n_ap": 1000,
+      "n_seqs": 14,
+      "n_frames": 168
+    },
+    "concat_vs_gsw_full": {
+      "dAP50_point": 0.006606316711023852,
+      "dAP50_mean": 0.005464339181079479,
+      "dAP50_ci95": [
+        -0.008971104421778172,
+        0.01912438326580458
+      ],
+      "dAP50_frac_pos": 0.7926666666666666,
+      "n50": 3000,
+      "dAP_point": 0.008865466343446149,
+      "dAP_mean": 0.008446775009320244,
+      "dAP_ci95": [
+        -0.001129058306682891,
+        0.018527032944343113
+      ],
+      "n_ap": 1000,
+      "n_seqs": 40,
+      "n_frames": 480
+    },
+    "depth_4ch_vs_5ch": {
+      "dAP50_point": 0.01735869442596011,
+      "dAP50_mean": 0.017347371031253934,
+      "dAP50_ci95": [
+        -0.026825358237043122,
+        0.07085023912959834
+      ],
+      "dAP50_frac_pos": 0.7513333333333333,
+      "n50": 3000,
+      "dAP_point": 0.0041435086763175755,
+      "dAP_mean": 0.004896298913157391,
+      "dAP_ci95": [
+        -0.015077684464964852,
+        0.030771247948387533
+      ],
+      "n_ap": 1000,
+      "n_seqs": 13,
+      "n_frames": 154
+    }
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pycocotools": "2.0.11"
+  },
+  "sampling_order": "sequence draw order, then original manifest frame order; every occurrence retained",
+  "source_sha256": "401a7e43ea2d8ae1f708daf4506f5834fff1e3a0fc7969103a3cb71eda964d5a"
 }

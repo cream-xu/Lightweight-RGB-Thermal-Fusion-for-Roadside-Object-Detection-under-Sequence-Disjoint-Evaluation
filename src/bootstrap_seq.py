@@ -1,148 +1,237 @@
-"""序列级 bootstrap 不确定性 (ChatGPT建议, 零训练成本):
-以 held-out test 的序列为有放回重采样单元, 重算COCO AP50/AP → Δ的95% CI
-比较对: (concat, GBF), (concat, GSW), 全量test与夜间子集; (4ch, 5ch) depth 三模态v2
-dets来自已存盘的预测 (dets_*.json), 全程CPU
-输出: runs/rlivit_sq/bootstrap_seq.json
+"""Paired sequence bootstrap with repeated draws preserved.
+
+Per-image COCO matching is cached; accumulation retains every sampled occurrence.
+Checks against literal duplication with remapped COCO IDs precede computation.
 """
-import os, io, json, csv
+import argparse
+import copy
+import csv
+import hashlib
+import io
+import json
+import time
+from collections import defaultdict
 from contextlib import redirect_stdout
+from pathlib import Path
 import numpy as np
+from PIL import Image
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 
-SQ = 'datasets/RLiViT/rlivit_sq'
-MSQ = 'datasets/RLiViT/rlivit_multi_sq'
-PROJ_SQ = 'runs/rlivit_sq'
-PROJ_MSQ = 'runs/rlivit_msq'
-# Historical implementation: set(sample) discards multiplicity. Stored intervals
-# require recomputation with duplicated/remapped images before inferential use.
-N_BOOT_50 = 3000   # AP50: 单IoU阈值快速eval (审计P1-2要求2000-5000)
-N_BOOT_AP = 1000   # AP(50-95): 全阈值慢eval
-RNG = np.random.default_rng(42)
 NAMES = ['Pedestrian', 'Car', 'Cyclist', 'Motorcycle', 'Truck', 'Bus', 'Tramway']
-
-
-def build_gt(manifest, labels_dir, img_dir):
-    import cv2
-    images, anns = [], []
-    for rid, row in enumerate(rows_test(manifest)):
-        name = row['name']
-        buf = np.fromfile(os.path.join(img_dir, f'{name}.png'), dtype=np.uint8)
-        h, w = cv2.imdecode(buf, cv2.IMREAD_COLOR).shape[:2]
-        images.append({'id': rid + 1, 'file_name': name, 'width': w, 'height': h})
-        lp = os.path.join(labels_dir, f'{name}.txt')
-        if os.path.exists(lp):
-            for line in open(lp):
-                c, cx, cy, bw, bh = map(float, line.split())
-                anns.append({'id': len(anns) + 1, 'image_id': rid + 1, 'category_id': int(c) + 1,
-                             'bbox': [(cx - bw / 2) * w, (cy - bh / 2) * h, bw * w, bh * h],
-                             'area': bw * w * bh * h, 'iscrowd': 0})
-    return {'images': images, 'annotations': anns,
-            'categories': [{'id': i + 1, 'name': n} for i, n in enumerate(NAMES)]}
+N_BOOT_50, N_BOOT_AP = 3000, 1000
+MAX_DETS = 100  # Explicitly matches sq_eval.py and retained pycocotools defaults.
 
 
 def rows_test(manifest):
-    return [r for r in csv.DictReader(open(manifest)) if r['split'] == 'test']
+    with Path(manifest).open(encoding='utf-8', newline='') as f:
+        return [r for r in csv.DictReader(f) if r['split'] == 'test']
 
 
-def eval_ap(gt, dets, img_ids, ap50_only=True):
-    cocoGt = COCO()
-    cocoGt.dataset = gt
-    cocoGt.createIndex()
-    E = COCOeval(cocoGt, cocoGt.loadRes(dets), 'bbox')
-    E.params.imgIds = img_ids
-    # 提速: 只保留all-area评估 (AP/AP50只需area='all', 与pycocotools stats[0]/[1]口径一致)
-    E.params.areaRng = [[0 ** 2, 1e10 ** 2]]
+def build_gt(data_dir):
+    data_dir = Path(data_dir)
+    rows = rows_test(data_dir / 'manifest.csv')
+    images, anns = [], []
+    for image_id, row in enumerate(rows, 1):
+        with Image.open(data_dir / 'rgb/images/test' / (row['name'] + '.png')) as im:
+            w, h = im.size
+        images.append({'id': image_id, 'file_name': row['name'], 'width': w, 'height': h})
+        label = data_dir / 'rgb/labels/test' / (row['name'] + '.txt')
+        for line in label.read_text(encoding='utf-8').splitlines():
+            c, cx, cy, bw, bh = map(float, line.split())
+            anns.append({'id': len(anns)+1, 'image_id': image_id, 'category_id': int(c)+1,
+                         'bbox': [(cx-bw/2)*w, (cy-bh/2)*h, bw*w, bh*h],
+                         'area': bw*w*bh*h, 'iscrowd': 0})
+    return rows, {'info': {}, 'images': images, 'annotations': anns,
+                  'categories': [{'id': i+1, 'name': n} for i, n in enumerate(NAMES)]}
+
+
+def make_evaluator(gt, dets):
+    with redirect_stdout(io.StringIO()):
+        coco = COCO()
+        coco.dataset = copy.deepcopy(gt)
+        coco.createIndex()
+        evaluator = COCOeval(coco, coco.loadRes(copy.deepcopy(dets)), 'bbox')
+        evaluator.params.areaRng = [[0, 1e10]]
+        evaluator.params.areaRngLbl = ['all']
+        evaluator.params.maxDets = [MAX_DETS]
+        evaluator.evaluate()
+    return evaluator
+
+
+class CachedAP:
+    def __init__(self, gt, dets):
+        self.gt, self.dets = gt, dets
+        evaluator = make_evaluator(gt, dets)
+        self.recall_thresholds = evaluator.params.recThrs
+        self.n_iou_thresholds = len(evaluator.params.iouThrs)
+        self.cat_ids = evaluator.params.catIds
+        self.cache = {}
+        entries = np.array(evaluator.evalImgs, dtype=object).reshape(len(self.cat_ids), -1)
+        for cat, block in zip(self.cat_ids, entries):
+            for image_id, entry in zip(evaluator.params.imgIds, block):
+                if entry is not None:
+                    self.cache[cat, image_id] = (
+                        np.asarray(entry['dtScores']), entry['dtMatches'] != 0,
+                        entry['dtIgnore'], int(np.count_nonzero(entry['gtIgnore'] == 0)))
+
+    def evaluate(self, image_ids, ap50_only=False):
+        """image_ids is a list of occurrences, not a set; repetitions remain."""
+        values = []
+        for cat in self.cat_ids:
+            entries = [self.cache[cat, i] for i in image_ids if (cat, i) in self.cache]
+            n_gt = sum(e[3] for e in entries)
+            if not n_gt:
+                continue  # COCO excludes categories absent from sampled ground truth.
+            scores = np.concatenate([e[0] for e in entries])
+            if not len(scores):
+                values.extend([0.0] * (1 if ap50_only else self.n_iou_thresholds))
+                continue
+            order = np.argsort(-scores, kind='mergesort')
+            sl = slice(0, 1) if ap50_only else slice(None)
+            matched = np.concatenate([e[1][sl] for e in entries], axis=1)[:, order]
+            ignored = np.concatenate([e[2][sl] for e in entries], axis=1)[:, order]
+            tp = np.cumsum(matched & ~ignored, axis=1).astype(float)
+            fp = np.cumsum(~matched & ~ignored, axis=1).astype(float)
+            recall = tp / n_gt
+            precision = tp / (tp + fp + np.spacing(1))
+            precision = np.maximum.accumulate(precision[:, ::-1], axis=1)[:, ::-1]
+            for rc, pr in zip(recall, precision):
+                indices = np.searchsorted(rc, self.recall_thresholds, side='left')
+                q = np.zeros(len(self.recall_thresholds))
+                valid = indices < len(pr)
+                q[valid] = pr[indices[valid]]
+                values.append(float(q.mean()))
+        return float(np.mean(values)) if values else -1.0
+
+
+def literal_ap(gt, dets, image_ids, ap50_only=False):
+    """Independent reference: duplicate/remap actual images, labels and predictions."""
+    images = {i['id']: i for i in gt['images']}
+    anns, preds = defaultdict(list), defaultdict(list)
+    for a in gt['annotations']:
+        anns[a['image_id']].append(a)
+    for d in dets:
+        preds[d['image_id']].append(d)
+    sample_gt = {'info': {}, 'categories': copy.deepcopy(gt['categories']), 'images': [], 'annotations': []}
+    sample_dets = []
+    for new_id, old_id in enumerate(image_ids, 1):
+        sample_gt['images'].append({**images[old_id], 'id': new_id})
+        for a in anns[old_id]:
+            sample_gt['annotations'].append({**a, 'id': len(sample_gt['annotations'])+1, 'image_id': new_id})
+        sample_dets.extend({**d, 'image_id': new_id} for d in preds[old_id])
+    evaluator = make_evaluator(sample_gt, sample_dets)
+    with redirect_stdout(io.StringIO()):
+        evaluator.accumulate()
+    p = evaluator.eval['precision']
     if ap50_only:
-        E.params.iouThrs = np.array([0.5])  # 只算AP50, ~10x快
-    E.evaluate(); E.accumulate()
-    # 手动取stats (summarize要求3个areaRng会崩): 与pycocotools stats口径完全一致
-    # 实证: 本版本stats[0]/stats[1]均取M2切片(maxDets=1000), 已与eval_*.json全量数字对表验证
-    s = E.eval['precision']  # (T,R,K,A,M), A=0(all), M=[100,300,1000]
-    def ap_at(iou_idx, m_idx):
-        p = s[iou_idx, :, :, 0, m_idx]
-        return float(np.mean(p[p > -1]))
-    if ap50_only:
-        return ap_at(0, 2)  # AP50@maxDets=1000 == stats[1]
-    return float(np.mean([ap_at(t, 2) for t in range(s.shape[0])]))  # AP@maxDets=1000 == stats[0]
+        p = p[:1]
+    return float(p[p > -1].mean())
 
 
-def bootstrap_pair(gt, dets_a, dets_b, seq_of_img, img_pool):
-    """img_pool: rid列表; seq_of_img: {rid: seq}; 历史序列重采样诊断；重复序列被去重，不能作为标准有放回bootstrap"""
-    seqs = sorted(set(seq_of_img.values()))
-    rid_to_seq = {rid: seq_of_img[rid] for rid in img_pool}
+def sampled_frames(sample, frames_by_seq):
+    return [i for seq in sample for i in frames_by_seq[seq]]
 
-    def samples():
-        for _ in range(N_BOOT_50):
-            sample = RNG.choice(seqs, size=len(seqs), replace=True)
-            yield [rid for rid in img_pool if rid_to_seq[rid] in set(sample)]
 
-    ds50 = []
-    for ids in samples():
-        ds50.append(eval_ap(gt, dets_b, ids) - eval_ap(gt, dets_a, ids))
-    ds50 = np.array(ds50)
-    ds_ap = []
-    for _ in range(N_BOOT_AP):
-        sample = RNG.choice(seqs, size=len(seqs), replace=True)
-        ids = [rid for rid in img_pool if rid_to_seq[rid] in set(sample)]
-        ds_ap.append(eval_ap(gt, dets_b, ids, ap50_only=False)
-                     - eval_ap(gt, dets_a, ids, ap50_only=False))
-    ds_ap = np.array(ds_ap)
-    return {'dAP50_mean': round(float(ds50.mean()), 4),
-            'dAP50_ci95': [round(float(v), 4) for v in np.percentile(ds50, [2.5, 97.5])],
-            'dAP50_frac_pos': float((ds50 > 0).mean()),
-            'n50': N_BOOT_50,
-            'dAP_mean': round(float(ds_ap.mean()), 4),
-            'dAP_ci95': [round(float(v), 4) for v in np.percentile(ds_ap, [2.5, 97.5])],
-            'n_ap': N_BOOT_AP}
+def validate_cache(cache, frames_by_seq):
+    seqs = sorted(frames_by_seq)
+    draws = [[seqs[0], seqs[0], seqs[-1]], [seqs[-1], seqs[0], seqs[-1]]]
+    errors = []
+    for draw in draws:
+        ids = sampled_frames(draw, frames_by_seq)
+        assert len(ids) == sum(len(frames_by_seq[s]) for s in draw)
+        assert len(ids) > len(set(ids))
+        for ap50_only in [True, False]:
+            expected = literal_ap(cache.gt, cache.dets, ids, ap50_only)
+            actual = cache.evaluate(ids, ap50_only)
+            errors.append(abs(expected-actual))
+    assert max(errors) < 1e-12, errors
+    return {'n_literal_checks': len(errors), 'max_absolute_error': max(errors)}
+
+
+def bootstrap_pair(cache_a, cache_b, frames_by_seq, rng, n50=N_BOOT_50, n_ap=N_BOOT_AP, progress=None):
+    seqs = sorted(frames_by_seq)
+    original_ids = sorted(i for ids in frames_by_seq.values() for i in ids)
+    point50 = cache_b.evaluate(original_ids, True) - cache_a.evaluate(original_ids, True)
+    point_ap = cache_b.evaluate(original_ids) - cache_a.evaluate(original_ids)
+    arrays = []
+    for ap50_only, n in [(True, n50), (False, n_ap)]:
+        differences = []
+        for iteration in range(n):
+            draw = rng.choice(seqs, size=len(seqs), replace=True)
+            ids = sampled_frames(draw, frames_by_seq)
+            differences.append(cache_b.evaluate(ids, ap50_only) - cache_a.evaluate(ids, ap50_only))
+            if progress and (iteration+1) % 250 == 0:
+                progress('AP50' if ap50_only else 'AP', iteration+1, n)
+        arrays.append(np.array(differences))
+    ds50, ds_ap = arrays
+    return {'dAP50_point': point50, 'dAP50_mean': float(ds50.mean()),
+            'dAP50_ci95': [float(x) for x in np.percentile(ds50, [2.5, 97.5])],
+            'dAP50_frac_pos': float((ds50 > 0).mean()), 'n50': n50,
+            'dAP_point': point_ap, 'dAP_mean': float(ds_ap.mean()),
+            'dAP_ci95': [float(x) for x in np.percentile(ds_ap, [2.5, 97.5])], 'n_ap': n_ap,
+            'n_seqs': len(seqs), 'n_frames': len(original_ids)}, ds50, ds_ap
 
 
 def main():
-    # ---- 主协议 (sq) ----
-    rows = rows_test(os.path.join(SQ, 'manifest.csv'))
-    id_map = {r['name']: i + 1 for i, r in enumerate(rows)}
-    gt = build_gt(os.path.join(SQ, 'manifest.csv'),
-                  os.path.join(SQ, 'rgb', 'labels', 'test'),
-                  os.path.join(SQ, 'rgb', 'images', 'test'))
-    seq_of_img = {i + 1: r['seq'] for i, r in enumerate(rows)}
-    night_ids = [id_map[r['name']] for r in rows if r['daytime'].startswith('night')]
-    # 夜间子集: 只含夜帧, 重采样含夜帧的序列
-    night_seqs = sorted(set(r['seq'] for r in rows if r['daytime'].startswith('night')))
-    night_seq_map = {rid: s for rid, s in seq_of_img.items() if rid in set(night_ids)}
-
-    out = {'n_seqs': len(set(seq_of_img.values())), 'n_frames': len(rows),
-           'n_night_frames': len(night_ids), 'n_boot_ap50': N_BOOT_50,
-           'n_boot_ap': N_BOOT_AP, 'comparisons': {}}
-
-    def load_dets(exp, s, proj=PROJ_SQ):
-        return json.load(open(os.path.join(proj, f'dets_{exp}_s{s}.json')))
-
-    # concat vs GBF (full + night)
-    out['comparisons']['concat_vs_gbf_full'] = bootstrap_pair(
-        gt, load_dets('sq-4ch', 0), load_dets('sq-4ch-gbf', 0), seq_of_img, list(range(1, len(rows) + 1)))
-    out['comparisons']['concat_vs_gbf_night'] = bootstrap_pair(
-        gt, load_dets('sq-4ch', 0), load_dets('sq-4ch-gbf', 0), night_seq_map, night_ids)
-    # concat vs GSW (full)
-    out['comparisons']['concat_vs_gsw_full'] = bootstrap_pair(
-        gt, load_dets('sq-4ch', 0), load_dets('sq-4ch-gsw', 0), seq_of_img, list(range(1, len(rows) + 1)))
-
-    # ---- 深度 (msq): 4ch vs 5ch matched seed0 (dets缺失时跳过, 由watcher2的msq_dets步骤补) ----
-    d4 = os.path.join(PROJ_MSQ, 'dets_msq-4ch_s0.json')
-    d5 = os.path.join(PROJ_MSQ, 'dets_msq-5ch_s0.json')
-    if os.path.exists(d4) and os.path.exists(d5):
-        mrows = rows_test(os.path.join(MSQ, 'manifest.csv'))
-        mseq = {i + 1: r['seq'] for i, r in enumerate(mrows)}
-        mgt = build_gt(os.path.join(MSQ, 'manifest.csv'),
-                       os.path.join(MSQ, 'rgb', 'labels', 'test'),
-                       os.path.join(MSQ, 'rgb', 'images', 'test'))
-        out['comparisons']['depth_4ch_vs_5ch'] = bootstrap_pair(
-            mgt, load_dets('msq-4ch', 0, PROJ_MSQ), load_dets('msq-5ch', 0, PROJ_MSQ),
-            mseq, list(range(1, len(mrows) + 1)))
-    else:
-        out['comparisons']['depth_4ch_vs_5ch'] = 'dets缺失, 待msq_dets步骤后重跑'
-
-    json.dump(out, open(os.path.join(PROJ_SQ, 'bootstrap_seq.json'), 'w'), indent=1)
-    print(json.dumps(out, indent=1))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--sq-data', type=Path, default=Path('datasets/RLiViT/rlivit_sq'))
+    parser.add_argument('--msq-data', type=Path, default=Path('datasets/RLiViT/rlivit_multi_sq'))
+    parser.add_argument('--sq-runs', type=Path, default=Path('runs/rlivit_sq'))
+    parser.add_argument('--msq-runs', type=Path, default=Path('runs/rlivit_msq'))
+    parser.add_argument('--output', type=Path, default=Path('runs/rlivit_sq/bootstrap_seq.json'))
+    args = parser.parse_args()
+    sq_rows, sq_gt = build_gt(args.sq_data)
+    msq_rows, msq_gt = build_gt(args.msq_data)
+    rng = np.random.default_rng(42)
+    paths = [args.sq_runs / f'dets_{exp}_s0.json' for exp in ['sq-4ch', 'sq-4ch-gbf', 'sq-4ch-gsw']]
+    paths += [args.msq_runs / f'dets_{exp}_s0.json' for exp in ['msq-4ch', 'msq-5ch']]
+    caches, validations = [], {}
+    for i, path in enumerate(paths):
+        rows, gt = (sq_rows, sq_gt) if i < 3 else (msq_rows, msq_gt)
+        print('Preparing COCO matches:', path.name, flush=True)
+        cache = CachedAP(gt, json.loads(path.read_text(encoding='utf-8')))
+        frames = defaultdict(list)
+        for image_id, row in enumerate(rows, 1):
+            frames[row['seq']].append(image_id)
+        validations[path.name] = validate_cache(cache, frames)
+        caches.append(cache)
+    comparisons = [('concat_vs_gbf_full', 0, 1, sq_rows, False),
+                   ('concat_vs_gbf_night', 0, 1, sq_rows, True),
+                   ('concat_vs_gsw_full', 0, 2, sq_rows, False),
+                   ('depth_4ch_vs_5ch', 3, 4, msq_rows, False)]
+    hash_file = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+    out = {'generated_at': __import__('datetime').datetime.now().isoformat(timespec='seconds'),
+           'method': 'paired_sequence_cluster_bootstrap_preserving_multiplicity',
+           'sampling_seed': 42, 'training_seed': 0, 'n_seqs': 40, 'n_frames': len(sq_rows),
+           'n_night_frames': sum(r['daytime'].startswith('night') for r in sq_rows),
+           'n_boot_ap50': N_BOOT_50, 'n_boot_ap': N_BOOT_AP,
+           'evaluation': {'iou_thresholds': [float(x) for x in np.linspace(.5, .95, 10)],
+                          'recall_thresholds': 101, 'max_detections_per_image_per_category': MAX_DETS,
+                          'matching': 'pycocotools COCO bbox', 'tie_sort': 'stable mergesort',
+                          'absent_classes': 'excluded following COCO convention',
+                          'point_estimate': 'direct AP difference on original image order',
+                          'interval': '2.5th and 97.5th percentiles of paired differences'},
+           'validation': validations, 'input_sha256': {p.name: hash_file(p) for p in paths},
+           'manifest_sha256': {'sq': hash_file(args.sq_data/'manifest.csv'), 'msq': hash_file(args.msq_data/'manifest.csv')},
+           'comparisons': {}}
+    draws = {}
+    for key, a, b, rows, night in comparisons:
+        frames = defaultdict(list)
+        for image_id, row in enumerate(rows, 1):
+            if not night or row['daytime'].startswith('night'):
+                frames[row['seq']].append(image_id)
+        started = time.time()
+        def progress(metric, iteration, n):
+            print(f'{key}: {metric} {iteration}/{n}; elapsed {time.time()-started:.1f}s', flush=True)
+        record, ds50, ds_ap = bootstrap_pair(caches[a], caches[b], frames, rng, progress=progress)
+        out['comparisons'][key] = record
+        draws[key+'__AP50'], draws[key+'__AP'] = ds50, ds_ap
+        print(key, json.dumps(record), flush=True)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(out, indent=2)+'\n', encoding='utf-8')
+    np.savez_compressed(args.output.with_name('bootstrap_draws.npz'), **draws)
+    print('Saved', args.output, flush=True)
 
 
 if __name__ == '__main__':

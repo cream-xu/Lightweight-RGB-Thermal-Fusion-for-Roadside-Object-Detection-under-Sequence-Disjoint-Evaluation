@@ -1,8 +1,8 @@
 # Lightweight Shallow RGB-Thermal Fusion for Roadside Object Detection: Design and Controlled Evaluation
 
-Code, splits, and recorded results accompanying the [latest JSC draft (v8)](paper/manuscript_v8_JSC.docx).
+Code, splits, and recorded results accompanying the [latest JSC draft (v9)](paper/manuscript_v9_JSC.docx).
 
-Repository synchronized with the locally retained data and the 2026-10-01 experiment archive on **2026-10-08**. The experiments were not rerun for this update. The v8 file is a manuscript snapshot; author metadata and the statistical issue below remain to be resolved before submission.
+Repository synchronized with the locally retained data and the 2026-10-01 experiment archive. The sequence bootstrap was corrected and recomputed on **2026-10-08**; manuscript v9, figures and documentation were synchronized on **2026-10-09**. Saved predictions were reused without retraining. Author metadata remains to be completed before submission.
 
 We compare lightweight early-fusion configurations for a YOLO11n-based roadside detector on
 [R-LiViT](https://github.com/XITASO/r-livit) under a **sequence-disjoint train/dev/test protocol**
@@ -32,10 +32,11 @@ uniform COCO procedure across three training seeds.
 - GSW reaches the highest three-seed mean among the single-model variants, but seed-wise ordering is
   mixed; no consistent performance benefit from input-conditioned gating (GBF) over static channel
   weighting (GSW) was observed.
-- Archived seed-0 sequence-resampling diagnostics report a nighttime mAP50 difference of +4.0 pp
-  with percentile bounds [+0.2, +9.1], and a full-test mAP50–95 difference of +1.0 pp with bounds
-  [+0.2, +2.0]. **These bounds need recomputation before inferential use:** the stored implementation
-  discards repeated sampled sequences. See the [statistical audit note](results/README.md#statistical-audit-note).
+- Corrected paired sequence bootstrap for fixed seed-0 checkpoints gives a direct nighttime
+  GBF minus Concat mAP50 difference of +3.16 pp, with 95% percentile interval [+0.05, +9.23].
+  The full-test mAP50–95 difference is +1.00 pp, with interval [+0.06, +2.33]. The nighttime
+  lower bound is close to zero; these intervals exclude training-seed uncertainty. See the
+  [correction and validation record](results/README.md#bootstrap-correction-and-validation).
 - Nighttime GBF differences across seeds (+3.2, −5.9, +3.7 pp) are smaller than training-seed
   variability (SD ≈ 5 pp).
 - Across matched seeds 0–1, two-model late fusion exceeds GSW nighttime mAP50 by ≈9.1 pp at roughly
@@ -63,8 +64,8 @@ configs/    dataset yamls (paths relative to repo root; put datasets/ here)
 splits/     sequence-disjoint manifests + partition reports (frame stems only)
 src/        training / evaluation / analysis scripts (paths relative to repo root)
 results/    recorded evaluation JSONs (eval_*, bootstrap_seq, qual_*, eff_v2, gsw_latency, summaries)
-paper/      manuscript_v8_JSC.docx, protocol_archive.json, final_results_report.md (older files retained)
-figures/    all six exact v8 embedded figures; older figures retained
+paper/      manuscript_v9_JSC.docx, protocol_archive.json, final_results_report.md (older files retained)
+figures/    all six exact v9 embedded figures; Fig. 4 / Fig. 6 also have SVG exports
 data/       dataset links — raw data is NOT redistributed
 ```
 
@@ -94,13 +95,18 @@ python-docx. This update checks source paths and recorded artifacts, not a compl
    `python src/sq_eval.py --late sq-rgb 0 sq-ir 0`. Original `best.pt` checkpoints belong under
    `runs/rlivit_sq/rl_<experiment>_s<seed>/weights/`. They are available on request.
 5. `src/qual_breakdown.py`, `src/eff_v2.py` and `src/gsw_latency.py` contain analysis procedures.
-   `src/bootstrap_seq.py` preserves the historical resampling algorithm and has the issue described
-   below; do not use its output as a validated bootstrap confidence interval.
+   Run `python src/bootstrap_seq.py --output results/bootstrap_seq.json` with the retained seed-0
+   prediction JSONs and prepared images/labels. The corrected procedure retains repeated draws and
+   checks accumulation against literal COCO duplication before computation. Each comparison uses
+   3,000 AP50 and 1,000 AP draws. `python src/plot_bootstrap_figures.py` redraws Fig. 4 / Fig. 6
+   from recorded results; it requires Matplotlib. Saved predictions are available on request.
 
 Recorded environment: Ultralytics 8.4.75, Python 3.11.6, PyTorch 2.12.0.dev20260408+cu128,
 NVIDIA RTX 5060 Laptop (8,151 MiB). [protocol_archive.json](paper/protocol_archive.json) contains
-the original environment, selection epochs and checkpoint hashes. Its embedded accuracy summaries
-use multiple evaluation procedures; use `eval_*.json` for the main R-LiViT table.
+the original training environment, selection epochs and checkpoint hashes. The separate bootstrap
+recomputation environment and input hashes are recorded in `results/bootstrap_seq.json`.
+The protocol archive's embedded accuracy summaries use multiple evaluation procedures;
+use `eval_*.json` for the main R-LiViT table.
 
 The authors' original `runs/` outputs were compressed locally on 2026-10-01. This repository keeps
 the small recorded result files. To reuse the original predictions/checkpoints for analysis,
@@ -108,19 +114,20 @@ restore the original archive or request the relevant files from the authors.
 
 ## Manuscript figures
 
-| v8 figure | Exact embedded image |
+| v9 figure | Exact embedded image |
 |---|---|
 | Fig. 1: evaluation protocol | [fig1_protocol.png](figures/fig1_protocol.png) |
 | Fig. 2: architecture | [fig2_architecture.png](figures/fig2_architecture.png) |
 | Fig. 3: three-seed accuracy | [fig3_three_seed_results.png](figures/fig3_three_seed_results.png) |
-| Fig. 4: illumination and recorded resampling diagnostics | [fig4_illumination_bootstrap.png](figures/fig4_illumination_bootstrap.png) |
+| Fig. 4: illumination and corrected sequence bootstrap | [fig4_illumination_bootstrap.png](figures/fig4_illumination_bootstrap.png) |
 | Fig. 5: late fusion, efficiency and detection states | [fig5_late_fusion_detection_states.png](figures/fig5_late_fusion_detection_states.png) |
 | Fig. 6: depth and LLVIP | [fig6_depth_llvip.png](figures/fig6_depth_llvip.png) |
 
-Fig. 4 and the resampling panel of Fig. 6 reproduce the v8 snapshot; their interval interpretation
-needs revision following the statistical audit. Older `manuscript_v4.docx`,
-`results_data_tables.docx`, `fig3_seed_results.png` and manuscript-generator scripts are historical
-artifacts; they do not define the current v8 values or declarations.
+Fig. 4 and Fig. 6 use the corrected intervals and original-test point differences. Fig. 6a–c
+retain training-framework evaluations; Fig. 6d uses COCO evaluation of saved depth predictions.
+Older `manuscript_v8_JSC.docx`, `manuscript_v4.docx`, `results_data_tables.docx`,
+`fig3_seed_results.png` and manuscript-generator scripts are historical artifacts; they do not
+define the current v9 bootstrap results or declarations.
 
 ## Notes / limitations (mirrored from the manuscript)
 
@@ -136,7 +143,7 @@ Code is provided for research purposes. R-LiViT and LLVIP remain subject to thei
 
 ## Submission declarations
 
-The v8 draft states no funding and no competing interests. It describes secondary use of public
+The v9 draft states no funding and no competing interests. It describes secondary use of public
 datasets, no new participant recruitment, and no required ethics approval as confirmed by the
 authors. Dataset acknowledgments and official access/license references are included. Author names,
 affiliations, corresponding-author details and contributions remain blank pending final confirmation.

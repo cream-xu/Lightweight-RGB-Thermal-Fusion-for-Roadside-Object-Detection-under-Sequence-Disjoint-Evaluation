@@ -1,0 +1,52 @@
+{
+  "verification": "20 literal remapped-COCO comparisons plus main full/day/night point estimates",
+  "per_model": {
+    "dets_sq-4ch_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 1.1102230246251565e-16
+    },
+    "dets_sq-4ch-gbf_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 1.1102230246251565e-16
+    },
+    "dets_sq-4ch-gsw_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 5.551115123125783e-17
+    },
+    "dets_msq-4ch_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 5.551115123125783e-17
+    },
+    "dets_msq-5ch_s0.json": {
+      "n_literal_checks": 4,
+      "max_absolute_error": 1.1102230246251565e-16
+    },
+    "original_main_metrics": [
+      {
+        "model": "sq-4ch",
+        "n_literal_checks": 4,
+        "max_absolute_error": 1.1102230246251565e-16,
+        "full_test_matches_recorded": true
+      },
+      {
+        "model": "sq-4ch-gbf",
+        "n_literal_checks": 4,
+        "max_absolute_error": 1.1102230246251565e-16,
+        "full_test_matches_recorded": true
+      },
+      {
+        "model": "sq-4ch-gsw",
+        "n_literal_checks": 4,
+        "max_absolute_error": 5.551115123125783e-17,
+        "full_test_matches_recorded": true
+      }
+    ]
+  },
+  "resample_counts": [
+    3000,
+    1000
+  ],
+  "archive_kept": "results/legacy/bootstrap_seq_before_20261008.json",
+  "source_sha256": "401a7e43ea2d8ae1f708daf4506f5834fff1e3a0fc7969103a3cb71eda964d5a",
+  "drawing_npz_sha256": "c0990ab92af0f0ea898fbdb1432d4f42e5b18c2ac355df325d0907719ec3e9dc"
+}
